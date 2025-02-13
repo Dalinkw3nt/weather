@@ -46,27 +46,27 @@ resource "aws_dynamodb_table" "sales" {
 }
 
 # AWS QuickSight for Analytics
-resource "aws_quicksight_dataset" "sales_dashboard" {
-  name      = "RetailEdgeSalesData"
-  import_mode = "SPICE"
+#resource "aws_quicksight_dataset" "sales_dashboard" {
+#  name      = "RetailEdgeSalesData"
+#  import_mode = "SPICE"
 
-  physical_table_map {
-    dynamodb_table {
-      table_name = aws_dynamodb_table.sales.name
-    }
-  }
-}
+#  physical_table_map {
+#    dynamodb_table {
+#      table_name = aws_dynamodb_table.sales.name
+#    }
+#  }
+#}
 
 # Lambda for Processing Sales
-resource "aws_lambda_function" "sales_lambda" {
-  function_name = "RetailEdgeSalesProcessor"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "app.lambda_handler"
-  runtime       = "python3.9"
+#resource "aws_lambda_function" "sales_lambda" {
+#  function_name = "RetailEdgeSalesProcessor"
+#  role          = aws_iam_role.lambda_role.arn
+#  handler       = "app.lambda_handler"
+#  runtime       = "python3.9"
 
-  filename         = "lambda.zip"
-  source_code_hash = filebase64sha256("lambda.zip")
-}
+#  filename         = "lambda.zip"
+#  source_code_hash = filebase64sha256("lambda.zip")
+#}
 
 # API Gateway
 resource "aws_api_gateway_rest_api" "retail_api" {
@@ -98,22 +98,22 @@ resource "aws_cognito_user_pool_client" "app_client" {
 }
 
 # Outputs
-output "api_gateway_url" {
-  value = aws_api_gateway_rest_api.retail_api.endpoint
-}
+#output "api_gateway_url" {
+#  value = aws_api_gateway_rest_api.retail_api.endpoint
+#}
 
 output "cognito_user_pool_id" {
   value = aws_cognito_user_pool.user_pool.id
 }
-resource "aws_lambda_function" "yoco_payment_lambda" {
-  function_name = "RetailEdgeYocoPaymentProcessor"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "payments.lambda_handler"
-  runtime       = "python3.9"
-
-  filename         = "payments.zip"
-  source_code_hash = filebase64sha256("payments.zip")
-}
+#resource "aws_lambda_function" "yoco_payment_lambda" {
+#  function_name = "RetailEdgeYocoPaymentProcessor"
+#  role          = aws_iam_role.lambda_role.arn
+#  handler       = "payments.lambda_handler"
+#  runtime       = "python3.9"
+#
+#  filename         = "payments.zip"
+#  source_code_hash = filebase64sha256("payments.zip")
+#}
 
 resource "aws_api_gateway_resource" "payments" {
   rest_api_id = aws_api_gateway_rest_api.retail_api.id
